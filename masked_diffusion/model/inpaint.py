@@ -107,7 +107,7 @@ def inpaint(args):
 
 
 def main():
-    # wandb.init(project="masked-diffusion-mri", config=locals())
+    wandb.init(project="masked-diffusion-mri", config=locals())
 
     args = parse_args()
     inpaint(args)
