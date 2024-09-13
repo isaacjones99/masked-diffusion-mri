@@ -46,14 +46,18 @@ class IXIDataModule(pl.LightningDataModule):
         self.dims = None
 
     def prepare_data(self) -> None:
-        download_and_save_dataset(self.path, self.save_dir)
-        logger.info("Training data has been successfully downloaded")
+        # download_and_save_dataset(self.path, self.save_dir)
+        # logger.info("Training data has been successfully downloaded")
+        return
 
     def setup(self, stage: str = None) -> None:
         # Load training and validation data
         if stage == "fit" or stage is None:
             self.train_ds = load_from_disk(os.path.join(self.save_dir, "train"))
             self.val_ds = load_from_disk(os.path.join(self.save_dir, "validation"))
+
+            self.train_ds = self.train_ds.select(range(10))
+            self.val_ds = self.val_ds.select(range(10))
 
             # Apply preprocessing
             self.train_ds.set_transform(self.preprocess)
