@@ -18,15 +18,19 @@ def set_seeds(seed=42):
     torch.cuda.manual_seed_all(seed)  # multi-GPU
 
 
+# def get_device():
+#     return (
+#         "mps"
+#         if torch.backends.mps.is_available()
+#         else "cuda"
+#         if torch.cuda.is_available()
+#         else "cpu"
+#     )
 def get_device():
     return (
-        "mps"
-        if torch.backends.mps.is_available()
-        else "cuda"
-        if torch.cuda.is_available()
+        "cuda" if torch.cuda.is_available()
         else "cpu"
     )
-
 
 def load_yaml_config(file_path):
     """
