@@ -40,7 +40,7 @@ def main():
     config = update_config(load_yaml_config("masked_diffusion/model/config.yml"), vars(args))
 
     set_seeds()
-    wandb.init(project="masked-diffusion-mri", config=locals())
+    wandb.init(project="masked-diffusion-mri-trian", config=locals())
 
     config["device"] = device = get_device()
     logger.info(f"The device set to {device}")

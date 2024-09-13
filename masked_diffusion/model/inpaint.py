@@ -95,7 +95,7 @@ def inpaint(args):
         inpainted_image = np.split(inpainted_image, args.batch_size, axis=0)
         inpainted_images.extend(inpainted_image)
 
-        # wandb.log({"image_grid": wandb.Image(inpainted_image[0])})
+        wandb.log({"image_grid": wandb.Image(inpainted_image[0])})
 
     volume = dataset.slice_ext.combine_slices(inpainted_images)
     affine = dataset.slice_ext.affine
@@ -107,7 +107,7 @@ def inpaint(args):
 
 
 def main():
-    wandb.init(project="masked-diffusion-mri", config=locals())
+    wandb.init(project="masked-diffusion-mri-inpaint", config=locals())
 
     args = parse_args()
     inpaint(args)
