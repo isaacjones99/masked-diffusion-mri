@@ -1,23 +1,8 @@
-# This code is based on the "Diffusion Models Beat GANS on Image Synthesis." project, which is available at
-# https://github.com/openai/guided-diffusion. The original code is under the MIT License.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-# Copyright (c) 2021 OpenAI. See the original LICENSE file at
-# https://github.com/openai/guided-diffusion/blob/main/LICENSE for details.
-
 import math
 import random
 
 from PIL import Image
 import blobfile as bf
-from mpi4py import MPI
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
 
@@ -64,8 +49,6 @@ def load_data(
         image_size,
         all_files,
         classes=classes,
-        shard=MPI.COMM_WORLD.Get_rank(),
-        num_shards=MPI.COMM_WORLD.Get_size(),
         random_crop=random_crop,
         random_flip=random_flip,
     )
@@ -99,23 +82,21 @@ class ImageDataset(Dataset):
         resolution,
         image_paths,
         classes=None,
-        shard=0,
-        num_shards=1,
         random_crop=False,
         random_flip=True,
     ):
         super().__init__()
         self.resolution = resolution
-        self.local_images = image_paths[shard:][::num_shards]
-        self.local_classes = None if classes is None else classes[shard:][::num_shards]
+        self.image_paths = image_paths
+        self.classes = classes
         self.random_crop = random_crop
         self.random_flip = random_flip
 
     def __len__(self):
-        return len(self.local_images)
+        return len(self.image_paths)
 
     def __getitem__(self, idx):
-        path = self.local_images[idx]
+        path = self.image_paths[idx]
         with bf.BlobFile(path, "rb") as f:
             pil_image = Image.open(f)
             pil_image.load()
@@ -132,8 +113,8 @@ class ImageDataset(Dataset):
         arr = arr.astype(np.float32) / 127.5 - 1
 
         out_dict = {}
-        if self.local_classes is not None:
-            out_dict["y"] = np.array(self.local_classes[idx], dtype=np.int64)
+        if self.classes is not None:
+            out_dict["y"] = np.array(self.classes[idx], dtype=np.int64)
         return np.transpose(arr, [2, 0, 1]), out_dict
 
 
