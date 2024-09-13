@@ -5,11 +5,16 @@ __pycache__/
 *.pyo
 *.pyd
 
-/data/
+data/
+# !data/
+!data/.gitkeep
+
 /masked_diffusion/model/pretrained/
 /wandb
 /images
 /logs
+
+device_test.py
 
 
 # User-specific stuff
