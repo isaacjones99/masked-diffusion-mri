@@ -44,7 +44,7 @@ class DiffusionModel(pl.LightningModule):
             self.unet.convert_to_fp16()
 
         # Add model wrapper
-        self.unet = UNetWrapper(self.unet)
+        self.unet = UNetWrapper(self.unet, expand_dims=False)
 
     def forward(self, batch) -> Tuple[torch.Tensor, torch.Tensor]:
         # Get the clean images from the batch
