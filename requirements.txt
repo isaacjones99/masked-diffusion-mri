@@ -50,8 +50,7 @@ flake8==6.0.0
 isort==5.9.3
 pre-commit==3.3.3
 
-# Pytorch install for CUDA
---pre
---index-url https://download.pytorch.org/whl/nightly/cu124
+# PyTorch install
 torchvision==0.15.2
 torch
+setuptools~=68.2.0

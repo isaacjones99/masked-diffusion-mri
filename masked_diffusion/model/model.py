@@ -67,7 +67,7 @@ class DiffusionModel(pl.LightningModule):
 
         # Predict the noise
         noise_pred = self.unet(noisy_images, timesteps).to(clean_images.device)
-        noise_pred = torch.mean(noise_pred, dim=1)
+        # noise_pred = torch.mean(noise_pred, dim=1)
 
         return noise_pred, noise
 
