@@ -9,7 +9,7 @@ data/
 # !data/
 !data/.gitkeep
 
-/masked_diffusion/model/pretrained/
+/masked_diffusion/model/pretrained/*.pt
 /wandb
 /images
 /logs
