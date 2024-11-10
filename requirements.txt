@@ -4,7 +4,7 @@ matplotlib
 tqdm
 pyyaml
 scikit-image
-#mpi4py
+mpi4py
 pytorch-lightning
 diffusers
 datasets
