@@ -51,6 +51,6 @@ isort==5.9.3
 pre-commit==3.3.3
 
 # PyTorch install
-torchvision==0.15.2
+torchvision
 torch
 setuptools~=68.2.0
