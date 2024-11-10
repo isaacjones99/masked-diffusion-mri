@@ -39,6 +39,8 @@ def main():
     args = parse_args()
     config = update_config(load_yaml_config("masked_diffusion/model/config.yml"), vars(args))
 
+    torch.set_float32_matmul_precision("medium")
+
     set_seeds()
     wandb.init(project="masked-diffusion-mri-train", config=locals())
 
