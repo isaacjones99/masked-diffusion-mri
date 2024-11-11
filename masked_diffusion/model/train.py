@@ -62,7 +62,7 @@ def main():
     logger.info("✅ Training complete!")
 
     torch.save(repaint.unet.state_dict(), os.path.join(wandb.run.dir, "model.pt"))
-
+    torch.save(repaint.unet.unet.state_dict(), os.path.join(wandb.run.dir, "model_unet_unet.pt"))
 
 if __name__ == "__main__":
     main()
