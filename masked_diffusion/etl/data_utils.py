@@ -12,9 +12,6 @@ def download_and_save_dataset(path, save_dir) -> None:
     # Load the dataset from HuggingFace hub
     dataset = load_dataset(path)
 
-    dataset["train"] = dataset["train"].select(range(10))
-    dataset["validation"] = dataset["validation"].select(range(10))
-
     # Save the dataset locally
     dataset.save_to_disk(save_dir)
 
